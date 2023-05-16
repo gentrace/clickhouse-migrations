@@ -17,5 +17,15 @@ export default {
       entryFileNames: '[name].mjs',
     },
   ],
-  plugins: [commonjs()],
+  plugins: [
+    commonjs(),
+    {
+      renderChunk(code, chunk) {
+        if (chunk.fileName === 'cli.js') {
+          return `#!/usr/bin/env node\n${code}`;
+        }
+        return code;
+      },
+    },
+  ],
 };
